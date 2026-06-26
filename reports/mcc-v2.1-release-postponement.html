@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Отчет по причинам переноса релиза</title>
+  <style>
+    :root {
+      --bg: #0c1626; --surface: rgba(20,35,55,.88); --surface2: rgba(29,49,80,.88); --text: #e8eef7;
+      --muted: #8da2c0; --accent: #3b9eff; --warn: #f5a623; --danger: #ff5d5d; --ok: #2ed47f; --border: #233756;
+    }
+    * { box-sizing: border-box; }
+    html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { size: A4; margin: 12mm; }
+    @media print {
+      section { break-inside: avoid; }
+      .fig, .card { break-inside: avoid; }
+    }
+    body { margin: 0; font: 15px/1.7 "SF Pro Text", system-ui, -apple-system, sans-serif; color: var(--text);
+      background: radial-gradient(1100px 520px at 100% -10%, rgba(255,93,93,.10), transparent 60%),
+                  radial-gradient(900px 480px at 0% 0%, rgba(59,158,255,.08), transparent 55%),
+                  linear-gradient(180deg, #0d1827 0%, #0a1320 100%); background-attachment: fixed; }
+    a { color: #8fc1ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    main { max-width: 980px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+
+    .hero { position: relative; border-radius: 18px; overflow: hidden; padding: 2.1rem 2.4rem; margin-bottom: 2.25rem;
+      border: 1px solid var(--border);
+      background: radial-gradient(820px 320px at 92% -40%, rgba(255,93,93,.26), transparent 62%),
+                  linear-gradient(135deg, #1c2740 0%, #121f33 55%, #0c1626 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 16px 40px rgba(0,0,0,.45); }
+    .hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35;
+      background-image: linear-gradient(90deg, rgba(122,170,235,.06) 1px, transparent 1px), linear-gradient(0deg, rgba(122,170,235,.06) 1px, transparent 1px);
+      background-size: 40px 40px; mask-image: linear-gradient(120deg, #000, transparent 72%); }
+    .hero .eyebrow { position: relative; display: inline-flex; align-items: center; gap: .5rem; font-size: .78rem;
+      text-transform: uppercase; letter-spacing: .16em; color: var(--muted); font-weight: 700; margin-bottom: .85rem; }
+    .hero .eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 0 4px rgba(255,93,93,.18); }
+    .hero h1 { position: relative; margin: 0; font-size: 2.1rem; font-weight: 800; line-height: 1.12; }
+
+    section { margin: 2.5rem 0; }
+    h2.sec { font-size: 1.3rem; margin: 0 0 1rem; display: flex; align-items: center; gap: .6rem; }
+    h2.sec .n { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex: none;
+      border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); font-size: .92rem; font-weight: 800; color: var(--accent); }
+
+    .fig { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+    .fig img { width: 100%; height: auto; display: block; border-radius: 9px; }
+
+    .lead { font-size: 1.05rem; color: var(--text); margin: 0 0 1.1rem; }
+    .lead b { color: #fff; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.6rem 1.8rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,.28); }
+    .card p { margin: 0 0 .85rem; }
+    .card p:last-child { margin-bottom: 0; }
+
+    .callout { border-left: 3px solid var(--warn); }
+    .callout.danger { border-left-color: var(--danger); }
+
+    .readiness { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: .6rem; }
+    .readiness li { background: rgba(0,0,0,.18); border: 1px solid var(--border); border-radius: 10px; padding: .7rem 1rem; }
+    .readiness li.total { border-color: rgba(245,166,35,.4); }
+    .readiness b { color: #fff; }
+
+    .note-strong { color: var(--text); font-size: 1.05rem; }
+    .note-strong b { color: var(--danger); }
+
+    .foot { color: var(--muted); font-size: .82rem; margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1.2rem; }
+    .src-pill { display: inline-block; font-size: .78rem; padding: .25rem .65rem; border-radius: 999px; background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+
+    @media (max-width: 720px) { main { padding: 1.5rem 1.1rem 3rem; } .hero h1 { font-size: 1.55rem; } .card { padding: 1.3rem 1.3rem; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="hero">
+      <div class="eyebrow"><span class="dot"></span>MC Cloud · Релиз v2.1</div>
+      <h1>Отчет по причинам переноса релиза</h1>
+    </div>
+
+    <section>
+      <h2 class="sec"><span class="n">1</span>Плановый milestones</h2>
+      <div class="fig">
+        <img src="assets/postponement/01-milestones.png" alt="Плановые milestones: фича-фриз 10.06.2026, старт регресса 02.07.2026, релиз 09.07.2026">
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec"><span class="n">2</span>Состав релиза на 25.06</h2>
+      <p class="lead">54% релиза (94 шт.) составляют баги и саббаги.</p>
+      <div class="fig">
+        <img src="assets/postponement/02-release-composition.png" alt="Состав релиза по типам задач: саббаг, задача, баг, техзадача, фича, регресс">
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec"><span class="n">3</span>Сколько багов у какого разработчика?</h2>
+      <p class="lead">Коэффициент = баги разработчика ÷ его задачи.</p>
+      <div class="fig">
+        <img src="assets/postponement/03-bugs-by-dev.png" alt="Распределение багов по разработчикам — плотность баг/задача">
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec"><span class="n">4</span>Сдвиг фича-фриза</h2>
+      <div class="card callout">
+        <p>Фича фриз должен был состояться 10.06, а состоялся 17.06, хотя для некоторых задач еще позже.</p>
+        <p>Сдвиг фича фриза на неделю привел к тому что задачи для тестирования скопились на конец.</p>
+        <p>Из-за этого невозможно ровно распланировать нагрузку на QA на 3 недели.</p>
+        <p>Готовность задач к моменту фриза 10.06 в <a href="https://amnam314.github.io/flight_desk/mcc-v2.1-release-freeze-readiness.html" target="_blank" rel="noopener">отчете</a>.</p>
+        <ul class="readiness">
+          <li class="total">Всего: готово к фризу <b>21 из 31 (68%)</b>, не успели: <b>10</b>, добавлено после фриза: <b>1</b>.</li>
+          <li>· Фичи: готово к фризу <b>7 из 13 (54%)</b>, не успели <b>6</b>.</li>
+          <li>· Техтаски: готово к фризу <b>14 из 18 (78%)</b>, не успели <b>4</b>, добавлено после фриза: <b>1</b>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec"><span class="n">5</span>Риск повторного переноса</h2>
+      <div class="card callout danger">
+        <p class="note-strong">Если не все баги будут пофикшены разработчиками до регресса, то регресс не завершиться вовремя и релиз снова нужно будет переносить.</p>
+        <p>На текущий момент открыто 36 багов и саббагов.</p>
+      </div>
+      <div class="fig" style="margin-top:1.1rem">
+        <img src="assets/postponement/04-open-bugs.png" alt="Баги у разработки: 94 всего, 36 открыто, 58 закрыто">
+      </div>
+    </section>
+
+    <div class="foot">
+      <span class="src-pill">Источник: Проблема переноса релиаза 2.1.docx</span>
+    </div>
+  </main>
+</body>
+</html>
