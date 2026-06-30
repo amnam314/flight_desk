@@ -39,8 +39,18 @@
 
     section { margin: 2.5rem 0; }
     h2.sec { font-size: 1.3rem; margin: 0 0 1rem; display: flex; align-items: center; gap: .6rem; }
-    h2.sec .n { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex: none;
+    h2.sec .n { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 28px; flex: none; padding: 0 .35rem;
       border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); font-size: .92rem; font-weight: 800; color: var(--accent); }
+
+    .subsec { margin: 1.75rem 0 0; }
+    h3.subsec-h { font-size: 1.08rem; margin: 0 0 .85rem; display: flex; align-items: baseline; gap: .55rem; }
+    h3.subsec-h .sn { color: var(--accent); font-weight: 800; font-variant-numeric: tabular-nums; }
+    .reasons-intro { color: var(--muted); margin: 0 0 .5rem; }
+
+    .factors { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: .65rem; }
+    .factors li { position: relative; background: rgba(0,0,0,.18); border: 1px solid var(--border); border-left: 3px solid var(--warn);
+      border-radius: 10px; padding: .8rem 1rem .8rem 1.05rem; color: var(--text); }
+    .factors li b { color: #fff; }
 
     .fig { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,.3); }
     .fig img { width: 100%; height: auto; display: block; border-radius: 9px; }
@@ -78,14 +88,42 @@
     </div>
 
     <section>
-      <h2 class="sec"><span class="n">1</span>Плановый milestones</h2>
+      <h2 class="sec"><span class="n">1</span>Плановый milestone</h2>
       <div class="fig">
         <img src="assets/postponement/01-milestones.png" alt="Плановые milestones: фича-фриз 10.06.2026, старт регресса 02.07.2026, релиз 09.07.2026">
       </div>
     </section>
 
     <section>
-      <h2 class="sec"><span class="n">2</span>Состав релиза на 25.06</h2>
+      <h2 class="sec"><span class="n">2</span>Причины переноса</h2>
+
+      <div class="subsec">
+        <h3 class="subsec-h"><span class="sn">2.1</span>Сдвиг фича-фриза</h3>
+        <div class="card callout">
+          <p>Фича фриз должен был состояться 10.06, а состоялся 17.06, хотя для некоторых задач еще позже.</p>
+          <p>Сдвиг фича фриза на неделю привел к тому что задачи для тестирования скопились на конец.</p>
+          <p>Из-за этого невозможно ровно распланировать нагрузку на QA на 3 недели.</p>
+          <p>Готовность задач к моменту фриза 10.06 в <a href="https://amnam314.github.io/flight_desk/mcc-v2.1-release-freeze-readiness.html" target="_blank" rel="noopener">отчете</a>.</p>
+          <ul class="readiness">
+            <li class="total">Всего: готово к фризу <b>21 из 31 (68%)</b>, не успели: <b>10</b>, добавлено после фриза: <b>1</b>.</li>
+            <li>· Фичи: готово к фризу <b>7 из 13 (54%)</b>, не успели <b>6</b>.</li>
+            <li>· Техтаски: готово к фризу <b>14 из 18 (78%)</b>, не успели <b>4</b>, добавлено после фриза: <b>1</b>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <h3 class="subsec-h"><span class="sn">2.2</span>Фактическая нагрузка оказалась выше плановой</h3>
+        <ul class="factors">
+          <li>QA дополнительно разбирали упавшие автотесты в рамках дежурства.</li>
+          <li>Отпуска сильнее повлияли на доступность команды.</li>
+          <li>2.патч2 по подпискам занял больше времени из-за плохо воспроизводимых проблем и их локализации.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec"><span class="n">3</span>Состав релиза на 25.06</h2>
       <p class="lead">54% релиза (94 шт.) составляют баги и саббаги.</p>
       <div class="fig">
         <img src="assets/postponement/02-release-composition.png" alt="Состав релиза по типам задач: саббаг, задача, баг, техзадача, фича, регресс">
@@ -93,25 +131,10 @@
     </section>
 
     <section>
-      <h2 class="sec"><span class="n">3</span>Сколько багов у какого разработчика?</h2>
+      <h2 class="sec"><span class="n">4</span>Сколько багов у каждого разработчика</h2>
       <p class="lead">Коэффициент = баги разработчика ÷ его задачи.</p>
       <div class="fig">
         <img src="assets/postponement/03-bugs-by-dev.png" alt="Распределение багов по разработчикам — плотность баг/задача">
-      </div>
-    </section>
-
-    <section>
-      <h2 class="sec"><span class="n">4</span>Сдвиг фича-фриза</h2>
-      <div class="card callout">
-        <p>Фича фриз должен был состояться 10.06, а состоялся 17.06, хотя для некоторых задач еще позже.</p>
-        <p>Сдвиг фича фриза на неделю привел к тому что задачи для тестирования скопились на конец.</p>
-        <p>Из-за этого невозможно ровно распланировать нагрузку на QA на 3 недели.</p>
-        <p>Готовность задач к моменту фриза 10.06 в <a href="mcc-v2.1-release-freeze-readiness.html" target="_blank" rel="noopener">отчете</a>.</p>
-        <ul class="readiness">
-          <li class="total">Всего: готово к фризу <b>21 из 31 (68%)</b>, не успели: <b>10</b>, добавлено после фриза: <b>1</b>.</li>
-          <li>· Фичи: готово к фризу <b>7 из 13 (54%)</b>, не успели <b>6</b>.</li>
-          <li>· Техтаски: готово к фризу <b>14 из 18 (78%)</b>, не успели <b>4</b>, добавлено после фриза: <b>1</b>.</li>
-        </ul>
       </div>
     </section>
 
